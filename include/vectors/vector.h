@@ -1,11 +1,17 @@
-#ifndef _VECTOR_H
-#define _VECTOR_H
+#ifndef _ARC_VECTOR_H
+#define _ARC_VECTOR_H
 
-namespace nebula::linX {
+namespace arc {
 
+    // Define generic vector implementation
     template<int _Dim, typename _Type>
-    struct vec {};
+    struct vec {
+        // Base storage. This has no accessor overrides
+        _Type arr[_Dim];
+
+        // TODO: Add operator overloads
+    };
 
 }
 
-#endif // _VECTOR_H
+#endif // _ARC_VECTOR_H

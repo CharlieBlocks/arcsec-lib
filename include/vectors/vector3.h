@@ -1,47 +1,53 @@
-#ifndef _VECTOR3_H
-#define _VECTOR3_H
+#ifndef _ARC_VECTOR3_H
+#define _ARC_VECTOR3_H
 
 #include "vector.h"
-#include "linX/ops/vops.h"
-#include "linX/intrinsics.h"
+#include "../intrinsics.h"
+#include "../ops/vops.h"
 
 #include <type_traits>
 
-namespace nebula::linX {
-
+namespace arc {
     template<typename _Type>
-    struct LINX_ALIGN(16) vec<3, _Type> {
+    struct vec<3, _Type> {
+        using V = vec<3, _Type>;
+        using wide_t = typename type_selector<3, _Type>::type;
+
+        // Accessors/Storage
         union {
             struct { _Type x, y, z; };
             struct { _Type a, b, c; };
-            struct { typename type_selector<3, _Type>::type wide; };
+            struct { _Type u, v, w; };
+            struct { wide_t wide; };
             struct { _Type arr[3]; };
         };
 
-        /* Constructors */
+
+        // Constructors
         constexpr vec()
             : x(0), y(0), z(0) {}
         explicit constexpr vec(_Type v)
             : x(v), y(v), z(v) {}
         explicit constexpr vec(_Type x, _Type y, _Type z)
             : x(x), y(y), z(z) {}
-        template<typename = typename std::enable_if<!std::is_same<void*, type_selector<3, _Type>::type>::value>::type>
-        explicit constexpr vec(typename type_selector<3, _Type>::type v)
+
+        explicit constexpr vec(wide_t v)
             : wide(v) {}
-        
-        /* Operator overloads */
-        constexpr inline vec<3, _Type> operator +(const int other) const noexcept { return detail::vOps<typename type_selector<3, _Type>::type>::vec_add(*this, other); }
-        constexpr inline vec<3, _Type> operator +(const vec<3, _Type>& other) const noexcept { return detail::vOps<typename type_selector<3, _Type>::type>::vec_add(*this, other); }
 
-        constexpr inline vec<3, _Type> operator -(const int other) const noexcept { return detail::vOps<typename type_selector<3, _Type>::type>::vec_sub(*this, other); }
-        constexpr inline vec<3, _Type> operator -(const vec<3, _Type>& other) const noexcept { return detail::vOps<typename type_selector<3, _Type>::type>::vec_sub(*this, other); }
 
-        constexpr inline vec<3, _Type> operator *(const int other) const noexcept { return detail::vOps<typename type_selector<3, _Type>::type>::vec_mul(*this, other); }
-        constexpr inline vec<3, _Type> operator *(const vec<3, _Type>& other) const noexcept { return detail::vOps<typename type_selector<3, _Type>::type>::vec_mul(*this, other); }
+        // Operators
+        constexpr inline V& operator +(const _Type other) noexcept { return detail::vOps<wide_t>::vec_add(*this, other); }
+        constexpr inline V& operator -(const _Type other) noexcept { return detail::vOps<wide_t>::vec_sub(*this, other); }
+        constexpr inline V& operator *(const _Type other) noexcept { return detail::vOps<wide_t>::vec_mul(*this, other); }
+        constexpr inline V& operator /(const _Type other) noexcept { return detail::vOps<wide_t>::vec_div(*this, other); }
 
-        constexpr inline vec<3, _Type> operator /(const int other) const noexcept { return detail::vOps<typename type_selector<3, _Type>::type>::vec_div(*this, other); }
-        constexpr inline vec<3, _Type> operator /(const vec<3, _Type>& other) const noexcept { return detail::vOps<typename type_selector<3, _Type>::type>::vec_div(*this, other); }
+        constexpr inline V& operator +(const V& other) noexcept { return detail::vOps<wide_t>::vec_add(*this, other); }
+        constexpr inline V& operator -(const V& other) noexcept { return detail::vOps<wide_t>::vec_sub(*this, other); }
+        constexpr inline V& operator *(const V& other) noexcept { return detail::vOps<wide_t>::vec_mul(*this, other); }
+        constexpr inline V& operator /(const V& other) noexcept { return detail::vOps<wide_t>::vec_div(*this, other); }
+
+        // TODO: add reverse operators
     };
 }
 
-#endif // _VECTOR3_H
+#endif // _ARC_VECTOR3_H

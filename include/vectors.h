@@ -4,9 +4,9 @@
 #include "vectors/vector.h"
 #include "vectors/vector2.h"
 #include "vectors/vector3.h"
-#include "vectors/vector4.h"
+// #include "vectors/vector4.h"
 
-namespace nebula::linX {
+namespace arc {
 
     typedef vec<2, float> vec2;
     typedef vec<2, int> vec2i;
@@ -16,9 +16,9 @@ namespace nebula::linX {
     typedef vec<3, int> vec3i;
     typedef vec<3, double> vec3d;
 
-    typedef vec<4, float> vec4;
-    typedef vec<4, int> vec4i;
-    typedef vec<4, double> vec4d;
+    // typedef vec<4, float> vec4;
+    // typedef vec<4, int> vec4i;
+    // typedef vec<4, double> vec4d;
 
 }
 

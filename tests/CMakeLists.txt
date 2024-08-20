@@ -2,6 +2,8 @@
 
 # Define the project that holds all the tests
 project ("arcsec-tests")
+set (CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set (
     TEST_FILES
@@ -19,7 +21,8 @@ foreach (TEST_FILE ${TEST_FILES})
     add_executable (${TEST_EXE} ${TEST_FILE})
 
     # Link to arcsec
-    target_link_libraries (${TEST_EXE} INTERFACE arcsec)
+    target_link_libraries (${TEST_EXE} PRIVATE arcsec)
+    add_compile_definitions("__NEON__")
 
     # Add test
     add_test(NAME ${TEST_EXE} COMMAND ${TEST_EXE})

@@ -8,4 +8,4 @@
 #include "vectors/vector_generic.h"
 
 
-#endif _VECTOR_OPS_H
+#endif // _VECTOR_OPS_H

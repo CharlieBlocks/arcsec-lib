@@ -1,14 +1,16 @@
 #ifndef _OPSELECTOR_H
 #define _OPSELECTOR_H
 
-#include "linX/intrinsics.h"
+#include "intrinsics.h"
 
-namespace nebula::linX::detail {
+namespace arc::detail {
 
     /*
     op_selector is used to fetch the correct operation for a given
-    data type    
+    data type
     */
+
+    #if defined(INTRINSICS_X64)
     template<typename _Storage>
     struct op_selector {};
     template<>
@@ -60,6 +62,44 @@ namespace nebula::linX::detail {
         static inline __m256d div(__m256d _A, __m256d _B) noexcept { return _mm256_div_pd(_A, _B); }
     };
 
+    #elif defined(INTRINSICS_ARM)
+
+    template<typename _Storage>
+    struct op_selector {};
+    template<>
+    struct op_selector<i32x4_t> {
+        static inline i32x4_t set1(int _I) noexcept { return vdupq_n_s32(_I); }
+        static inline i32x4_t add(i32x4_t _A, i32x4_t _B) noexcept { return vaddq_s32(_A, _B); }
+        static inline i32x4_t sub(i32x4_t _A, i32x4_t _B) noexcept { return vsubq_s32(_A, _B); }
+        static inline i32x4_t mul(i32x4_t _A, i32x4_t _B) noexcept { return vmulq_s32(_A, _B); }
+        static inline i32x4_t div(i32x4_t _A, i32x4_t _B) noexcept {
+            // NEON does not implement an integer divide
+            // Because why would that be useful?
+            _A[0] /= _B[0];
+            _A[1] /= _B[1];
+            _A[2] /= _B[2];
+            _A[3] /= _B[3];
+            return _A;
+        }
+    };
+    template<>
+    struct op_selector<f32x4_t> {
+        static inline f32x4_t set1(int _I) noexcept { return vdupq_n_f32(_I); }
+        static inline f32x4_t add(f32x4_t _A, f32x4_t _B) noexcept { return vaddq_f32(_A, _B); }
+        static inline f32x4_t sub(f32x4_t _A, f32x4_t _B) noexcept { return vsubq_f32(_A, _B); }
+        static inline f32x4_t mul(f32x4_t _A, f32x4_t _B) noexcept { return vmulq_f32(_A, _B); }
+        static inline f32x4_t div(f32x4_t _A, f32x4_t _B) noexcept { return vdivq_f32(_A, _B); }
+    };
+    template<>
+    struct op_selector<f64x2_t> {
+        static inline f64x2_t set1(int _I) noexcept { return vdupq_n_f64(_I); }
+        static inline f64x2_t add(f64x2_t _A, f64x2_t _B) noexcept { return vaddq_f64(_A, _B); }
+        static inline f64x2_t sub(f64x2_t _A, f64x2_t _B) noexcept { return vsubq_f64(_A, _B); }
+        static inline f64x2_t mul(f64x2_t _A, f64x2_t _B) noexcept { return vmulq_f64(_A, _B); }
+        static inline f64x2_t div(f64x2_t _A, f64x2_t _B) noexcept { return vdivq_f64(_A, _B); }
+    };
+
+    #endif // INTRINSICS_X64
 }
 
 #endif // _OPSELECTOR_H

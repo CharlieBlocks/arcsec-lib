@@ -41,12 +41,34 @@ else () # Assume other architectures are x64. Potentially update later
 endif ()
 
 
+set (
+    INCLUDE_FILES
+
+    # Include
+    "include/vectors.h"
+    "include/intrinsics.h"
+
+    # Include/Ops
+    "include/ops/vops.h"
+    "include/ops/operation_selector.h"
+
+    # Include/Ops/Vectors
+    "include/ops/vectors/generic_ops.h"
+    "include/ops/vectors/vector_generic.h"
+    "include/ops/vectors/vector_vectorised.h"
+
+    # Include/Vectors
+    "include/vectors/vector.h"
+    "include/vectors/vector2.h"
+)
+
 # Here we create an empty interface library
 # The library has no source files to build but does expose
 # and include directory
 add_library(arcsec INTERFACE)
 target_include_directories(arcsec INTERFACE include) # Add `include` directory
-
+set (CMAKE_CXX_STANDARD 17)
+set (CMAKE_STANDARD_REQUIRED ON)
 
 # The corresponding compile definitions are now set
 # Some of these may be set by the compiler (MSVC does I think)
