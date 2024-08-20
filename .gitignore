@@ -1,0 +1,5 @@
+# .gitignore for arcsec-lib repo
+# The arcsec project is built using the CMake build system
+# so we ignore all cmake generated files
+
+/[Bb]uild/
