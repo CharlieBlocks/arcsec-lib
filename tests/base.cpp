@@ -3,11 +3,19 @@
 
 int main(int argc, char **argv) {
     arc::vec3 a(1, 2, 3);
-    arc::vec3 b(5);
 
-    volatile arc::vec3 c = a + b;
+    float f;
+    std::cin >> f;
+    arc::vec3 b(f);
+
+    a = a + b;
+    a = a * b;
+    a = a - b;
+    a = a / b;
+
+    std::cout << a.x << std::endl;
 
     // std::cout << c.x << ", " << c.y << ", " << c.z << std::endl;
 
-    return c.x;
+    return a.x;
 }

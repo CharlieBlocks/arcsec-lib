@@ -81,6 +81,13 @@ namespace arc::detail {
             _A[3] /= _B[3];
             return _A;
         }
+        static inline bool eq(i32x4_t _A, i32x4_t _B) noexcept {
+            uint16x8_t equalMask = vreinterpretq_u16_u32(vceqq_s32(_A, _B));
+            uint8x8_t res = vshrn_n_u16(equalMask, 4);
+            uint64_t matches = vget_lane_u64(vreinterpret_u64_u8(res), 0);
+            matches &= 0xffffffffffffull;
+            return matches == 0xffffffffffffull;
+        }
     };
     template<>
     struct op_selector<f32x4_t> {
@@ -89,6 +96,13 @@ namespace arc::detail {
         static inline f32x4_t sub(f32x4_t _A, f32x4_t _B) noexcept { return vsubq_f32(_A, _B); }
         static inline f32x4_t mul(f32x4_t _A, f32x4_t _B) noexcept { return vmulq_f32(_A, _B); }
         static inline f32x4_t div(f32x4_t _A, f32x4_t _B) noexcept { return vdivq_f32(_A, _B); }
+        static inline bool eq(f32x4_t _A, f32x4_t _B) noexcept {
+            for (int i = 0; i < 4; ++i) {
+                if (_A[i] != _B[i])
+                    return false;
+            }
+            return true;
+        }
     };
     template<>
     struct op_selector<f64x2_t> {
@@ -97,6 +111,13 @@ namespace arc::detail {
         static inline f64x2_t sub(f64x2_t _A, f64x2_t _B) noexcept { return vsubq_f64(_A, _B); }
         static inline f64x2_t mul(f64x2_t _A, f64x2_t _B) noexcept { return vmulq_f64(_A, _B); }
         static inline f64x2_t div(f64x2_t _A, f64x2_t _B) noexcept { return vdivq_f64(_A, _B); }
+        static inline bool eq(f64x2_t _A, f64x2_t _B) noexcept {
+            for (int i = 0; i < 2; ++i) {
+                if (_A[i] != _B[i])
+                    return false;
+            }
+            return true;
+        }
     };
 
     #endif // INTRINSICS_X64

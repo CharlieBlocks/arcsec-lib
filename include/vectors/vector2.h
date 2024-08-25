@@ -42,15 +42,12 @@ namespace arc {
 
 
         // Operators
-        constexpr inline V& operator +(const _Type other) noexcept { return detail::vOps<wide_t>::vec_add(*this, other); }
-        constexpr inline V& operator -(const _Type other) noexcept { return detail::vOps<wide_t>::vec_sub(*this, other); }
-        constexpr inline V& operator *(const _Type other) noexcept { return detail::vOps<wide_t>::vec_mul(*this, other); }
-        constexpr inline V& operator /(const _Type other) noexcept { return detail::vOps<wide_t>::vec_mul(*this, other); }
+        ARITHMETIC_OPERATORS
 
-        constexpr inline V& operator +(const V& other) noexcept { return detail::vOps<wide_t>::vec_add(*this, other); }
-        constexpr inline V& operator -(const V& other) noexcept { return detail::vOps<wide_t>::vec_sub(*this, other); }
-        constexpr inline V& operator *(const V& other) noexcept { return detail::vOps<wide_t>::vec_mul(*this, other); }
-        constexpr inline V& operator /(const V& other) noexcept { return detail::vOps<wide_t>::vec_div(*this, other); }
+        INPLACE_OPERATORS
+
+        COMPARISON_OPERATORS
+
 
         // TODO: Add reverse operators
     };

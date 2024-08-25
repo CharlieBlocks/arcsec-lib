@@ -54,6 +54,15 @@ namespace arc::detail {
         static constexpr inline vec<_Dim, _Type>& vec_div(vec<_Dim, _Type>& vec_a, const _Type v);
 
 
+        /*
+        Comparison Operators
+        */
+        template<int _Dim, typename _Type>
+        static constexpr inline bool vec_eq(vec<_Dim, _Type>& vec_a, const vec<_Dim, _Type>& vec_b);
+        template<int _Dim, typename _Type>
+        static constexpr inline bool vec_eq(vec<_Dim, _Type>& vec_a, const _Type b);
+
+
 
         /*
         Vector Operations
@@ -127,6 +136,22 @@ namespace arc::detail {
         const _Type v
     ) {
         return generic_vec_div(vec_a, v);
+    }
+
+
+    template<int _Dim, typename _Type>
+    OOL_STATIC constexpr inline bool vOps<void*>::vec_eq(
+        vec<_Dim, _Type>& vec_a,
+        const vec<_Dim, _Type>& vec_b
+    ) {
+        return generic_vec_eq(vec_a, vec_b);
+    }
+    template<int _Dim, typename _Type>
+    OOL_STATIC constexpr inline bool vOps<void*>::vec_eq(
+        vec<_Dim, _Type>& vec_a,
+        const _Type b
+    ) {
+        return generic_vec_eq(vec_a, b);
     }
 }
 

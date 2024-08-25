@@ -118,6 +118,33 @@ namespace arc::detail {
         return vec_a;
     }
 
+
+    template<int _Dim, typename _Type>
+    static constexpr inline bool generic_vec_eq(
+        vec<_Dim, _Type>& vec_a,
+        const vec<_Dim, _Type>& vec_b
+    ) {
+        int i = _Dim - 1;
+        do {
+            if (vec_a.arr[i] != vec_b.arr[i])
+                return false;
+            --i;
+        } while (i >= 0);
+        return true;
+    }
+    template<int _Dim, typename _Type>
+    static constexpr inline bool generic_vec_eq(
+        vec<_Dim, _Type>& vec_a,
+        const _Type b
+    ) {
+        int i = _Dim - 1;
+        do {
+            if (vec_a.arr[i] != b)
+                return false;
+            --i;
+        } while (i >= 0);
+        return true;
+    }
 }
 
 
