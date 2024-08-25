@@ -3,7 +3,7 @@
 
 #include "../../intrinsics.h"
 #include "../../vectors/vector.h"
-#include "../operation_selector.h"
+#include "../selectors/op_selector.h"
 #include "generic_ops.h"
 
 #include "utils.h"
@@ -55,7 +55,7 @@ namespace arc::detail {
             vec_a = generic_vec_add(vec_a, vec_b);
             return vec_a;
         } else {
-            vec_a.wide = op_selector<_Storage>::add(vec_a.wide, vec_b.wide);
+            vec_a.wide = op_selector<_Storage, _Dim>::add(vec_a.wide, vec_b.wide);
             return vec_a;
         }
     }
@@ -69,8 +69,8 @@ namespace arc::detail {
             auto o = generic_vec_add(vec_a, b);
             return o;
         } else {
-            auto scalar = op_selector<_Storage>::set1(b);
-            vec_a.wide = op_selector<_Storage>::add(vec_a.wide, scalar);
+            auto scalar = op_selector<_Storage, _Dim>::set1(b);
+            vec_a.wide = op_selector<_Storage, _Dim>::add(vec_a.wide, scalar);
             return vec_a;
         }
     }
@@ -85,7 +85,7 @@ namespace arc::detail {
             vec_a = generic_vec_sub(vec_a, vec_b);
             return vec_a;
         } else {
-            vec_a.wide = op_selector<_Storage>::sub(vec_a.wide, vec_b.wide);
+            vec_a.wide = op_selector<_Storage, _Dim>::sub(vec_a.wide, vec_b.wide);
             return vec_a;
         }
     }
@@ -99,8 +99,8 @@ namespace arc::detail {
             auto o = generic_sub_add(vec_a, b);
             return o;
         } else {
-            auto scalar = op_selector<_Storage>::set1(b);
-            vec_a.wide = op_selector<_Storage>::sub(vec_a.wide, scalar);
+            auto scalar = op_selector<_Storage, _Dim>::set1(b);
+            vec_a.wide = op_selector<_Storage, _Dim>::sub(vec_a.wide, scalar);
             return vec_a;
         }
     }
@@ -115,7 +115,7 @@ namespace arc::detail {
             vec_a = generic_vec_mul(vec_a, vec_b);
             return vec_a;
         } else {
-            vec_a.wide = op_selector<_Storage>::mul(vec_a.wide, vec_b.wide);
+            vec_a.wide = op_selector<_Storage, _Dim>::mul(vec_a.wide, vec_b.wide);
             return vec_a;
         }
     }
@@ -129,8 +129,8 @@ namespace arc::detail {
             auto o = generic_vec_mul(vec_a, b);
             return o;
         } else {
-            auto scalar = op_selector<_Storage>::set1(b);
-            vec_a.wide = op_selector<_Storage>::mul(vec_a.wide, scalar);
+            auto scalar = op_selector<_Storage, _Dim>::set1(b);
+            vec_a.wide = op_selector<_Storage, _Dim>::mul(vec_a.wide, scalar);
             return vec_a;
         }
     }
@@ -145,7 +145,7 @@ namespace arc::detail {
             vec_a = generic_vec_div(vec_a, vec_b);
             return vec_a;
         } else {
-            vec_a.wide = op_selector<_Storage>::div(vec_a.wide, vec_b.wide);
+            vec_a.wide = op_selector<_Storage, _Dim>::div(vec_a.wide, vec_b.wide);
             return vec_a;
         }
     }
@@ -159,8 +159,8 @@ namespace arc::detail {
             auto o = generic_vec_div(vec_a, b);
             return o;
         } else {
-            auto scalar = op_selector<_Storage>::set1(b);
-            vec_a.wide = op_selector<_Storage>::div(vec_a.wide, scalar);
+            auto scalar = op_selector<_Storage, _Dim>::set1(b);
+            vec_a.wide = op_selector<_Storage, _Dim>::div(vec_a.wide, scalar);
             return vec_a;
         }
     }
@@ -177,7 +177,7 @@ namespace arc::detail {
             bool o = generic_vec_eq(vec_a, vec_b);
             return 0;
         } else {
-            return op_selector<_Storage>::eq(vec_a.wide, vec_b.wide);
+            return op_selector<_Storage, _Dim>::eq(vec_a.wide, vec_b.wide);
         }
     }
 }

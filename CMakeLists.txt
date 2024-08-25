@@ -50,7 +50,7 @@ set (
 
     # Include/Ops
     "include/ops/vops.h"
-    "include/ops/operation_selector.h"
+    "include/ops/selectors/operation_selector.h"
 
     # Include/Ops/Vectors
     "include/ops/vectors/generic_ops.h"
