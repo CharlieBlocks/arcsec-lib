@@ -6,10 +6,11 @@
 #include "../ops/vops.h"
 
 #include <type_traits>
+#include "../utils.h"
 
 namespace arc {
     template<typename _Type>
-    struct vec<3, _Type> {
+    struct _ARC_ALIGN(16) vec<3, _Type> {
         using V = vec<3, _Type>;
         using wide_t = typename type_selector<3, _Type>::type;
 
