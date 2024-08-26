@@ -39,8 +39,8 @@ struct op_selector<int32x4_t, 3> {
         uint16x8_t eqMask = vreinterpretq_u16_u32(vceqq_s32(_A, _B));
         uint8x8_t res = vshrn_n_u16(eqMask, 4);
         uint64_t matches = vget_lane_u64(vreinterpret_u64_u8(res), 0);
-        matches &= 0xffffffffffff0000ull;
-        return matches == 0xffffffffffff0000ull;
+        matches &= 0xffffffffffffull;
+        return matches == 0xffffffffffffull;
     }
 };
 
@@ -87,8 +87,9 @@ struct op_selector<float32x4_t, 3> {
     OP_FUNC2_RET(T, T, eq, bool) {
         uint16x8_t mask = vreinterpretq_u16_u32(vceqq_f32(_A, _B));
         uint8x8_t res = vshrn_n_u16(mask, 4);
+        uint64x1_t temp = vreinterpret_u64_u8(res);
         uint64_t matches = vget_lane_u64(vreinterpret_u64_u8(res), 0);
-        return (matches & 0xffffffffffff0000ull) == 0xfffffffffff0000ull;
+        return (matches & 0xffffffffffffull) == 0xffffffffffffull;
     }
 };
 
