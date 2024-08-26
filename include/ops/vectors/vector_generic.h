@@ -1,17 +1,9 @@
-/*
-Implemented Functions:
-- Add
-- AddS
-- Sub
-- SubS
-- Mul
-- MulS
-- Div
-- Divs
-*/
-
 #ifndef _VECTOR_GENERIC_H
 #define _VECTOR_GENERIC_H
+
+#ifndef _VOPS_FILE
+#error "vector_generic.h should only be included by vops.h"
+#endif
 
 #include "../../intrinsics.h"
 #include "../../vectors/vector.h"
@@ -21,138 +13,83 @@ Implemented Functions:
 
 namespace arc::detail {
 
+    #define VTYPE vec<_Dim, _Type>
+    #define GENERIC_FUNC1(ret, name, fn) template<int _Dim, typename _Type> OOL_STATIC constexpr inline ret vOps<void*>::name(const VTYPE& A, const VTYPE& B) {return fn(A, B);}
+    #define GENERIC_FUNC2(ret, name, fn) template<int _Dim, typename _Type> OOL_STATIC constexpr inline ret vOps<void*>::name(const VTYPE& A, const _Type S) { return fn(A, S);}
+    #define GENERIC_FUNC3(ret, name, fn) template<int _Dim, typename _Type> OOL_STATIC constexpr inline ret vOps<void*>::name(VTYPE& A, const VTYPE& B) { return fn(A, B);}
+    #define GENERIC_FUNC4(ret, name, fn) template<int _Dim, typename _Type> OOL_STATIC constexpr inline ret vOps<void*>::name(VTYPE& A, const _Type S) { return fn(A, S);}
+
     template<>
     struct vOps<void*> {
+        // Addition
+        template<int _Dim, typename _Type> static constexpr inline VTYPE vec_add(const VTYPE& A, const VTYPE& B);
+        template<int _Dim, typename _Type> static constexpr inline VTYPE vec_add(const VTYPE& A, const _Type scalar);
+        template<int _Dim, typename _Type> static constexpr inline void vec_add_mut(VTYPE& A, const VTYPE& B);
+        template<int _Dim, typename _Type> static constexpr inline void vec_add_mut(VTYPE& A, const _Type scalar);
 
-        /*
-        Generic Arithmetic:
-        - Add
-        - Sub
-        - Mul
-        - Div
-        - Exp
-        - Log
-        */
-        template<int _Dim, typename _Type>
-        static constexpr inline vec<_Dim, _Type>& vec_add(vec<_Dim, _Type>& vec_a, const vec<_Dim, _Type>& vec_b);
-        template<int _Dim, typename _Type>
-        static constexpr inline vec<_Dim, _Type>& vec_add(vec<_Dim, _Type>& vec_a, const _Type v);
+        // Subtraction
+        template<int _Dim, typename _Type> static constexpr inline VTYPE vec_sub(const VTYPE& A, const VTYPE& B);
+        template<int _Dim, typename _Type> static constexpr inline VTYPE vec_sub(const VTYPE& A, const _Type scalar);
+        template<int _Dim, typename _Type> static constexpr inline void vec_sub_mut(VTYPE& A, const VTYPE& B);
+        template<int _Dim, typename _Type> static constexpr inline void vec_sub_mut(VTYPE& A, const _Type scalar);
+        template<int _Dim, typename _Type> static constexpr inline VTYPE vec_sub_recip(const VTYPE& A, const _Type B);
 
-        template<int _Dim, typename _Type>
-        static constexpr inline vec<_Dim, _Type>& vec_sub(vec<_Dim, _Type>& vec_a, const vec<_Dim, _Type>& vec_b);
-        template<int _Dim, typename _Type>
-        static constexpr inline vec<_Dim, _Type>& vec_sub(vec<_Dim, _Type>& vec_a, const _Type v);
+        // Multiplication
+        template<int _Dim, typename _Type> static constexpr inline VTYPE vec_mul(const VTYPE& A, const VTYPE& B);
+        template<int _Dim, typename _Type> static constexpr inline VTYPE vec_mul(const VTYPE& A, const _Type scalar);
+        template<int _Dim, typename _Type> static constexpr inline void vec_mul_mut(VTYPE& A, const VTYPE& B);
+        template<int _Dim, typename _Type> static constexpr inline void vec_mul_mut(VTYPE& A, const _Type scalar);
 
-        template<int _Dim, typename _Type>
-        static constexpr inline vec<_Dim, _Type>& vec_mul(vec<_Dim, _Type>& vec_a, const vec<_Dim, _Type>& vec_b);
-        template<int _Dim, typename _Type>
-        static constexpr inline vec<_Dim, _Type>& vec_mul(vec<_Dim, _Type>& vec_a, const _Type v);
+        // Division
+        template<int _Dim, typename _Type> static constexpr inline VTYPE vec_div(const VTYPE& A, const VTYPE& B);
+        template<int _Dim, typename _Type> static constexpr inline VTYPE vec_div(const VTYPE& A, const _Type scalar);
+        template<int _Dim, typename _Type> static constexpr inline void vec_div_mut(VTYPE& A, const VTYPE& B);
+        template<int _Dim, typename _Type> static constexpr inline void vec_div_mut(VTYPE& A, const _Type scalar);
+        template<int _Dim, typename _Type> static constexpr inline VTYPE vec_div_recip(const VTYPE& A, const _Type B);
 
-        template<int _Dim, typename _Type>
-        static constexpr inline vec<_Dim, _Type>& vec_div(vec<_Dim, _Type>& vec_a, const vec<_Dim, _Type>& vec_b);
-        template<int _Dim, typename _Type>
-        static constexpr inline vec<_Dim, _Type>& vec_div(vec<_Dim, _Type>& vec_a, const _Type v);
-
-
-        /*
-        Comparison Operators
-        */
-        template<int _Dim, typename _Type>
-        static constexpr inline bool vec_eq(vec<_Dim, _Type>& vec_a, const vec<_Dim, _Type>& vec_b);
-        template<int _Dim, typename _Type>
-        static constexpr inline bool vec_eq(vec<_Dim, _Type>& vec_a, const _Type b);
-
-
-
-        /*
-        Vector Operations
-        - Sum
-        - Product
-        - Dot Product
-        - Cross Product
-        */
-
-        /* Trig */
+        // Equality
+        template<int _Dim, typename _Type> static constexpr inline bool vec_eq(const VTYPE& A, const VTYPE& B);
+        template<int _Dim, typename _Type> static constexpr inline bool vec_eq(const VTYPE& A, const _Type scalar);
     };
 
 
-    // Implementations
-    template<int _Dim, typename _Type>
-    OOL_STATIC constexpr inline vec<_Dim, _Type>& vOps<void*>::vec_add(
-        vec<_Dim, _Type>& vec_a,
-        const vec<_Dim, _Type>& vec_b
-    ) {
-        return generic_vec_add(vec_a, vec_b);
-    }
+    // Addition implementation
+    GENERIC_FUNC1(VTYPE, vec_add, generic_vec_add)
+    GENERIC_FUNC2(VTYPE, vec_add, generic_vec_add)
+    GENERIC_FUNC3(void, vec_add_mut, generic_vec_add_mut)
+    GENERIC_FUNC4(void, vec_add_mut, generic_vec_add_mut)
 
-    template<int _Dim, typename _Type>
-    OOL_STATIC constexpr inline vec<_Dim, _Type>& vOps<void*>::vec_add(
-        vec<_Dim, _Type> & vec_a,
-        const _Type v
-    ) {
-        return generic_vec_add(vec_a, v);
-    }
+    // Subtraction implementation
+    GENERIC_FUNC1(VTYPE, vec_sub, generic_vec_sub)
+    GENERIC_FUNC2(VTYPE, vec_sub, generic_vec_sub)
+    GENERIC_FUNC3(void, vec_sub_mut, generic_vec_sub_mut)
+    GENERIC_FUNC4(void, vec_sub_mut, generic_vec_sub_mut)
+    GENERIC_FUNC2(VTYPE, vec_sub_recip, generic_vec_sub_recip)
 
-    template<int _Dim, typename _Type>
-    OOL_STATIC constexpr inline vec<_Dim, _Type>& vOps<void*>::vec_sub(
-        vec<_Dim, _Type>& vec_a,
-        const vec<_Dim, _Type>& vec_b
-    ) {
-        return generic_vec_sub(vec_a, vec_b);
-    }
-    template<int _Dim, typename _Type>
-    OOL_STATIC constexpr inline vec<_Dim, _Type>& vOps<void*>::vec_sub(
-        vec<_Dim, _Type> & vec_a,
-        const _Type v
-    ) {
-        return generic_vec_sub(vec_a, v);
-    }
+    // Multiplication Implementation
+    GENERIC_FUNC1(VTYPE, vec_mul, generic_vec_mul)
+    GENERIC_FUNC2(VTYPE, vec_mul, generic_vec_mul)
+    GENERIC_FUNC3(void, vec_mul_mut, generic_vec_mul_mut)
+    GENERIC_FUNC4(void, vec_mul_mut, generic_vec_mul_mut)
 
-    template<int _Dim, typename _Type>
-    OOL_STATIC constexpr inline vec<_Dim, _Type>& vOps<void*>::vec_mul(
-        vec<_Dim, _Type>& vec_a,
-        const vec<_Dim, _Type>& vec_b
-    ) {
-        return generic_vec_mul(vec_a, vec_b);
-    }
-    template<int _Dim, typename _Type>
-    OOL_STATIC constexpr inline vec<_Dim, _Type>& vOps<void*>::vec_mul(
-        vec<_Dim, _Type> & vec_a,
-        const _Type v
-    ) {
-        return generic_vec_mul(vec_a, v);
-    }
+    // Division Implementation
+    GENERIC_FUNC1(VTYPE, vec_div, generic_vec_div)
+    GENERIC_FUNC2(VTYPE, vec_div, generic_vec_div)
+    GENERIC_FUNC3(void, vec_div_mut, generic_vec_div_mut)
+    GENERIC_FUNC4(void, vec_div_mut, generic_vec_div_mut)
+    GENERIC_FUNC2(VTYPE, vec_div_recip, generic_vec_sub_recip)
 
-    template<int _Dim, typename _Type>
-    OOL_STATIC constexpr inline vec<_Dim, _Type>& vOps<void*>::vec_div(
-        vec<_Dim, _Type>& vec_a,
-        const vec<_Dim, _Type>& vec_b
-    ) {
-        return generic_vec_div(vec_a, vec_b);
-    }
-    template<int _Dim, typename _Type>
-    OOL_STATIC constexpr inline vec<_Dim, _Type>& vOps<void*>::vec_div(
-        vec<_Dim, _Type> & vec_a,
-        const _Type v
-    ) {
-        return generic_vec_div(vec_a, v);
-    }
+    // Equality Implementation
+    GENERIC_FUNC1(bool, vec_eq, generic_vec_eq)
+    GENERIC_FUNC2(bool, vec_eq, generic_vec_eq)
 
 
-    template<int _Dim, typename _Type>
-    OOL_STATIC constexpr inline bool vOps<void*>::vec_eq(
-        vec<_Dim, _Type>& vec_a,
-        const vec<_Dim, _Type>& vec_b
-    ) {
-        return generic_vec_eq(vec_a, vec_b);
-    }
-    template<int _Dim, typename _Type>
-    OOL_STATIC constexpr inline bool vOps<void*>::vec_eq(
-        vec<_Dim, _Type>& vec_a,
-        const _Type b
-    ) {
-        return generic_vec_eq(vec_a, b);
-    }
+    // Undefs
+    #undef VTYPe
+    #undef GENERIC_FUNC1
+    #undef GENERIC_FUNC2
+    #undef GENERIC_FUNC3
+    #undef GENERIC_FUNC4
 }
 
 

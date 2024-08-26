@@ -3,49 +3,76 @@
 #define ASSERT(x) { if (!(x)) return 1; }
 
 using namespace arc;
+
+
+
+template<int _Dim, typename _Storage>
+int test_vec(_Storage vA, _Storage vB) {
+    using T = vec<_Dim, _Storage>;
+
+    // Create vectors
+    T a(vA);
+    T b(vB);
+
+    // Test equality operators
+    ASSERT(vA == vA);
+    ASSERT(!(vA != vA));
+
+    // Test basic arithmetic operators
+    ASSERT((a + b) == T(vA + vB));
+    ASSERT((a - b) == T(vA - vB));
+    ASSERT((a * b) == T(vA * vB));
+    ASSERT((a / b) == T(vA / vB));
+
+    // Copy assignment
+    T c = a;
+    ASSERT(c == a);
+
+    // Test inplace operators
+    c += b;
+    ASSERT(c == T(vA + vB));
+
+    c = a;
+    c -= b;
+    ASSERT(c == T(vA - vB));
+
+    c = a;
+    c *= b;
+    ASSERT(c == T(vA * vB));
+
+    c = a;
+    c /= b;
+    ASSERT(c == T(vA / vB));
+
+
+    return 0;
+}
+
+
 int main(int argc, char **argv) {
-    // Vector 2
-    {
-        vec2 a(1, 2);
-        vec2 b(4, 5);
 
-        ASSERT(a == a);
-        ASSERT(!(a != a));
+    int res;
 
-        a += b;
-        ASSERT(a == vec2(5, 7));
+    /* Vector2 Types */
+    res = test_vec<2, int>(2, 3); // Integer
+    ASSERT(res == 0);
 
-        a -= b;
-        ASSERT(a == vec2(1, 2));
+    res = test_vec<2, float>(2, 3); // Float
+    ASSERT(res == 0);
 
-        a *= b;
-        ASSERT(a == vec2(4, 10));
-
-        a /= b;
-        ASSERT(a == vec2(1, 2));
-    }
+    res = test_vec<2, double>(2, 3); // Double
+    ASSERT(res == 0);
 
 
-    // Vector 3
-    {
-        vec3 a(1, 2, 3);
-        vec3 b(4, 5, 6);
+    /* Vector3 Types */
+    res = test_vec<3, int>(2, 3); // Integer
+    ASSERT(res == 0);
 
-        ASSERT(a == a);
-        ASSERT(!(a != a));
+    res = test_vec<3, float>(2, 3); // Float
+    ASSERT(res == 0);
 
-        a += b;
-        ASSERT(a == vec3(5, 7, 9));
-
-        a -= b;
-        ASSERT(a == vec3(1, 2, 3));
-
-        a *= b;
-        ASSERT(a == vec3(4, 10, 18));
-
-        a /= b;
-        ASSERT(a == vec3(1, 2, 3));
-    }
+    res = test_vec<3, double>(2, 3); // Double
+    ASSERT(res == 0);
 
 
     return 0;

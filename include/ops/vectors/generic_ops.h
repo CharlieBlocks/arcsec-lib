@@ -5,146 +5,152 @@
 
 namespace arc::detail {
 
-    template<int _Dim, typename _Type>
-    static constexpr inline vec<_Dim, _Type>& generic_vec_add(
-        vec<_Dim, _Type>& vec_a,
-        const vec<_Dim, _Type>& vec_b
-    ) {
-        int i = _Dim - 1;
-        do {
-            vec_a.arr[i] = vec_a.arr[i] + vec_b.arr[i];
-            --i;
-        } while (i >= 0);
+    // Helper defines
+    #define VTYPE vec<_Dim, _Type>
+    #define VOPS_FN_CP1(name) template<int _Dim, typename _Type> static constexpr inline VTYPE name(const VTYPE& A, const VTYPE& B)
+    #define VOPS_FN_CP2(name) template<int _Dim, typename _Type> static constexpr inline VTYPE name(const VTYPE& A, const _Type S)
+    #define VOPS_FN_MUT1(name) template<int _Dim, typename _Type> static constexpr inline void name(VTYPE& A, const VTYPE& B)
+    #define VOPS_FN_MUT2(name) template<int _Dim, typename _Type> static constexpr inline void name(VTYPE& A, const _Type S)
+    #define VOPS_FN_REP(name) template<int _Dim, typename _Type> static constexpr inline VTYPE name(const VTYPE& A, const _Type S)
+    #define VOPS_FN_CMP1(name) template<int _Dim, typename _Type> static constexpr inline bool name(const VTYPE& A, const VTYPE& B)
+    #define VOPS_FN_CMP2(name) template<int _Dim, typename _Type> static constexpr inline bool name(const VTYPE& A, const _Type S)
 
-        return vec_a;
+    #define LOOP1(op) int i = _Dim - 1; do { o.arr[i] = A.arr[i] op B.arr[i]; --i; } while (i >= 0);
+    #define LOOP2(op) int i = _Dim - 1; do { o.arr[i] = A.arr[i] op S; --i; } while (i >= 0);
+    #define LOOP_MUT1(op) int i = _Dim - 1; do { A.arr[i] = A.arr[i] op B.arr[i]; --i; } while (i >= 0);
+    #define LOOP_MUT2(op) int i = _Dim - 1; do { A.arr[i] = A.arr[i] op S; --i; } while (i >= 0);
+
+    /* Implemenations */
+
+    // Addition
+    VOPS_FN_CP1(generic_vec_add) {
+        VTYPE o;
+        LOOP1(+)
+        return o;
     }
-    template<int _Dim, typename _Type>
-    static constexpr inline vec<_Dim, _Type>& generic_vec_add(
-        vec<_Dim, _Type>& vec_a,
-        const _Type v
-    ) {
-        int i = _Dim - 1;
-        do {
-            vec_a.arr[i] = vec_a.arr[i] + v;
-            --i;
-        } while (i >= 0);
-
-        return vec_a;
+    VOPS_FN_CP2(generic_vec_add) {
+        VTYPE o;
+        LOOP2(+)
+        return o;
     }
-
-
-
-    template<int _Dim, typename _Type>
-    static constexpr inline vec<_Dim, _Type>& generic_vec_sub(
-        vec<_Dim, _Type>& vec_a,
-        const vec<_Dim, _Type>& vec_b
-    ) {
-        int i = _Dim - 1;
-        do {
-            vec_a.arr[i] = vec_a.arr[i] - vec_b.arr[i];
-            --i;
-        } while (i >= 0);
-
-        return vec_a;
+    VOPS_FN_MUT1(generic_vec_add_mut) {
+        LOOP_MUT1(+)
     }
-    template<int _Dim, typename _Type>
-    static constexpr inline vec<_Dim, _Type>& generic_vec_sub(
-        vec<_Dim, _Type>& vec_a,
-        const _Type v
-    ) {
-        int i = _Dim - 1;
-        do {
-            vec_a.arr[i] = vec_a.arr[i] - v;
-            --i;
-        } while (i >= 0);
-
-        return vec_a;
+    VOPS_FN_MUT2(generic_vec_add_mut) {
+        LOOP_MUT2(+)
     }
 
 
-
-    template<int _Dim, typename _Type>
-    static constexpr inline vec<_Dim, _Type>& generic_vec_mul(
-        vec<_Dim, _Type>& vec_a,
-        const vec<_Dim, _Type>& vec_b
-    ) {
-        int i = _Dim - 1;
-        do {
-            vec_a.arr[i] = vec_a.arr[i] * vec_b.arr[i];
-            --i;
-        } while (i >= 0);
-
-        return vec_a;
+    // Subtraction
+    VOPS_FN_CP1(generic_vec_sub) {
+        VTYPE o;
+        LOOP1(-)
+        return o;
     }
-    template<int _Dim, typename _Type>
-    static constexpr inline vec<_Dim, _Type>& generic_vec_mul(
-        vec<_Dim, _Type>& vec_a,
-        const _Type v
-    ) {
-        int i = _Dim - 1;
-        do {
-            vec_a.arr[i] = vec_a.arr[i] * v;
-            --i;
-        } while (i >= 0);
-
-        return vec_a;
+    VOPS_FN_CP2(generic_vec_sub) {
+        VTYPE o;
+        LOOP2(-)
+        return o;
     }
-
-
-    template<int _Dim, typename _Type>
-    static constexpr inline vec<_Dim, _Type>& generic_vec_div(
-        vec<_Dim, _Type>& vec_a,
-        const vec<_Dim, _Type>& vec_b
-    ) {
-        int i = _Dim - 1;
-        do {
-            vec_a.arr[i] = vec_a.arr[i] / vec_b.arr[i];
-            --i;
-        } while (i >= 0);
-
-        return vec_a;
+    VOPS_FN_MUT1(generic_vec_sub_mut) {
+        LOOP_MUT1(-)
     }
-    template<int _Dim, typename _Type>
-    static constexpr inline vec<_Dim, _Type>& generic_vec_div(
-        vec<_Dim, _Type>& vec_a,
-        const _Type v
-    ) {
+    VOPS_FN_MUT2(generic_vec_sub_mut) {
+        LOOP_MUT2(-)
+    }
+    VOPS_FN_REP(generic_vec_sub_recip) {
         int i = _Dim - 1;
+        VTYPE o;
         do {
-            vec_a.arr[i] = vec_a.arr[i] / v;
+            o.arr[i] = S - A.arr[i];
             --i;
         } while (i >= 0);
-
-        return vec_a;
+        return o;
     }
 
 
-    template<int _Dim, typename _Type>
-    static constexpr inline bool generic_vec_eq(
-        vec<_Dim, _Type>& vec_a,
-        const vec<_Dim, _Type>& vec_b
-    ) {
+    // Multiplication
+    VOPS_FN_CP1(generic_vec_mul) {
+        VTYPE o;
+        LOOP1(*)
+        return o;
+    }
+    VOPS_FN_CP2(generic_vec_mul) {
+        VTYPE o;
+        LOOP2(*)
+        return o;
+    }
+    VOPS_FN_MUT1(generic_vec_mul_mut) {
+        LOOP_MUT1(*)
+    }
+    VOPS_FN_MUT2(generic_vec_mul_mut) {
+        LOOP_MUT2(*)
+    }
+
+
+    // Division
+    VOPS_FN_CP1(generic_vec_div) {
+        VTYPE o;
+        LOOP1(/)
+        return o;
+    }
+    VOPS_FN_CP2(generic_vec_div) {
+        VTYPE o;
+        LOOP2(/)
+        return o;
+    }
+    VOPS_FN_MUT1(generic_vec_div_mut) {
+        LOOP_MUT1(/)
+    }
+    VOPS_FN_MUT2(generic_vec_div_mut) {
+        LOOP_MUT2(/)
+    }
+    VOPS_FN_REP(generic_vec_div_recip) {
+        VTYPE o;
         int i = _Dim - 1;
         do {
-            if (vec_a.arr[i] != vec_b.arr[i])
-                return false;
+            o.arr[i] = S / A.arr[i];
             --i;
         } while (i >= 0);
-        return true;
+        return o;
     }
-    template<int _Dim, typename _Type>
-    static constexpr inline bool generic_vec_eq(
-        vec<_Dim, _Type>& vec_a,
-        const _Type b
-    ) {
+
+
+    // Equality Operator
+    VOPS_FN_CMP1(generic_vec_eq) {
         int i = _Dim - 1;
+        bool o = true;
         do {
-            if (vec_a.arr[i] != b)
-                return false;
+            o &= A.arr[i] == B.arr[i];
             --i;
-        } while (i >= 0);
-        return true;
+        } while (i >= 0 && o);
+        return o;
     }
+    VOPS_FN_CMP2(generic_vec_eq) {
+        int i = _Dim - 1;
+        bool o = true;
+        do {
+            o &= A.arr[i] == S;
+            --i;
+        } while (i >= 0 && o);
+        return o;
+    }
+
+
+    // Undefs to be safe
+    #undef VTYPE
+    #undef VOPS_FN_CP1
+    #undef VOPS_FN_CP2
+    #undef VOPS_FN_MUT1
+    #undef VOPS_FN_MUT2
+    #undef VOPS_FN_REP
+    #undef VOPS_FN_CMP1
+    #undef VOPS_FN_CMP2
+    #undef LOOP1
+    #undef LOOP2
+    #undef LOOP_MUT1
+    #undef LOOP_MUT2
+
 }
 
 
