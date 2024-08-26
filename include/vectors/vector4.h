@@ -1,22 +1,24 @@
-#ifndef _VECTOR4_H
-#define _VECTOR4_H
+#ifndef _ARC_VECTOR4_H
+#define _ARC_VECTOR4_H
 
 #include "vector.h"
-#include "linX/ops/vops.h"
-#include "linX/intrinsics.h"
+#include "../intrinsics.h"
+#include "../ops/vops.h"
 
 #include <type_traits>
+#include "../utils.h"
 
-namespace nebula::linX {
-
+namespace arc {
     template<typename _Type>
-    struct LINX_ALIGN(32) vec<4, _Type> {
-        using wide_type = typename type_selector<4, _Type>::type;
+    struct _ARC_ALIGN(32) vec<4, _Type> {
+        using V = vec<4, _Type>;
+        using wide_t = typename type_selector<4, _Type>::type;
 
+        // Accessors/Storage
         union {
             struct { _Type x, y, z, w; };
             struct { _Type a, b, c, d; };
-            struct { wide_type wide; };
+            struct { wide_t wide; };
             struct { _Type arr[4]; };
         };
 
@@ -27,22 +29,13 @@ namespace nebula::linX {
             : x(v), y(v), z(v), w(v) {}
         explicit constexpr vec(_Type x, _Type y, _Type z, _Type w)
             : x(x), y(y), z(z), w(w) {}
-        template<typename = typename std::enable_if<!std::is_same<void*, wide_type>::value>::type>
-        explicit constexpr vec(wide_type v)
+        explicit constexpr vec(wide_t v)
             : wide(v) {}
 
-        /* Operator overloads */
-        constexpr inline vec<4, _Type> operator +(const int other) const noexcept { return detail::Ops<wide_type>::vec_add(*this, other); }
-        constexpr inline vec<4, _Type> operator +(const vec<4, _Type>& other) const noexcept { return detail::vOps<wide_type>::vec_add(*this, other); }
-
-        constexpr inline vec<4, _Type> operator -(const int other) const noexcept { return detail::vOps<wide_type>::vec_sub(*this, other); }
-        constexpr inline vec<4, _Type> operator -(const vec<4, _Type>& other) const noexcept { return detail::vOps<wide_type>::vec_sub(*this, other); }
-
-        constexpr inline vec<4, _Type> operator *(const int other) const noexcept { return detail::vOps<wide_type>::vec_mul(*this, other); }
-        constexpr inline vec<4, _Type> operator *(const vec<4, _Type>& other) const noexcept { return detail::vOps<wide_type>::vec_mul(*this, other); }
-
-        constexpr inline vec<4, _Type> operator /(const int other) const noexcept { return detail::vOps<wide_type>::vec_div(*this, other); }
-        constexpr inline vec<4, _Type> operator /(const vec<4, _Type>& other) const noexcept { return detail::vOps<wide_type>::vec_div(*this, other); }
+        // Operators
+        ARITHMETIC_OPERATORS
+        INPLACE_OPERATORS
+        COMPARISON_OPERATORS
     };
 
 }

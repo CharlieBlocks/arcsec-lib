@@ -75,5 +75,15 @@ int main(int argc, char **argv) {
     ASSERT(res == 0);
 
 
+    /* Vector4 Types */
+    res = test_vec<4, int>(2, 3); // Integer
+    ASSERT(res == 0);
+
+    res = test_vec<4, float>(2, 3); // Float
+    ASSERT(res == 0);
+
+    res = test_vec<4, double>(2, 3); // Double
+    ASSERT(res == 0);
+
     return 0;
 }
