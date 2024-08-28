@@ -8,7 +8,8 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (
     TEST_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/vec-arithmetic.cpp" # Test for basic lhs arithmetric
-    "${CMAKE_CURRENT_SOURCE_DIR}/vec-mag.cpp" # Test arc::magnitude and arc::magnitude2
+    "${CMAKE_CURRENT_SOURCE_DIR}/vec-mag.cpp" # Test arc::vmagnitude and arc::vmagnitude2
+    "${CMAKE_CURRENT_SOURCE_DIR}/vec-norm.cpp" # Test arc::vnormalise
 )
 
 # We iterate over TEST_FILES to create executables for each test

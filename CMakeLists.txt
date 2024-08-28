@@ -63,6 +63,7 @@ set (
 
     # Include/Vfn
     "include/vfn/vmag.h"
+    "include/vfn/vnorm.h"
 )
 
 # Here we create an empty interface library
