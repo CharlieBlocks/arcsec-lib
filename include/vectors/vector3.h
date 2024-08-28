@@ -34,16 +34,6 @@ namespace arc {
 
         explicit constexpr vec(wide_t v)
             : wide(v) {}
-
-
-        // Operators
-        ARITHMETIC_OPERATORS
-
-        INPLACE_OPERATORS
-
-        COMPARISON_OPERATORS
-
-        // TODO: add reverse operators
     };
 }
 

@@ -31,11 +31,6 @@ namespace arc {
             : x(x), y(y), z(z), w(w) {}
         explicit constexpr vec(wide_t v)
             : wide(v) {}
-
-        // Operators
-        ARITHMETIC_OPERATORS
-        INPLACE_OPERATORS
-        COMPARISON_OPERATORS
     };
 
 }

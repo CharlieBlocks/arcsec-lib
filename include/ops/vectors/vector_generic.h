@@ -77,7 +77,7 @@ namespace arc::detail {
     GENERIC_FUNC2(VTYPE, vec_div, generic_vec_div)
     GENERIC_FUNC3(void, vec_div_mut, generic_vec_div_mut)
     GENERIC_FUNC4(void, vec_div_mut, generic_vec_div_mut)
-    GENERIC_FUNC2(VTYPE, vec_div_recip, generic_vec_sub_recip)
+    GENERIC_FUNC2(VTYPE, vec_div_recip, generic_vec_div_recip)
 
     // Equality Implementation
     GENERIC_FUNC1(bool, vec_eq, generic_vec_eq)

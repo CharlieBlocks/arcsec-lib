@@ -39,20 +39,7 @@ namespace arc {
 
         explicit constexpr vec(typename type_selector<2, _Type>::type v)
             : wide(v) {}
-
-
-        // Operators
-        ARITHMETIC_OPERATORS
-
-        INPLACE_OPERATORS
-
-        COMPARISON_OPERATORS
-
-
-        // TODO: Add reverse operators
     };
-
-
 }
 
 #endif // _ARC_VECTOR2_H

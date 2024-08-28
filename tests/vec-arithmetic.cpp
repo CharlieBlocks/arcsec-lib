@@ -45,6 +45,13 @@ int test_vec(_Storage vA, _Storage vB) {
     ASSERT(c == T(vA / vB));
 
 
+    // Test reciprocal operators
+    ASSERT(vB + a == T(vB + vA));
+    ASSERT(vB - a == T(vB - vA));
+    ASSERT(vB * a == T(vB * vA));
+    ASSERT(vB / a == T(vB / vA));
+
+
     return 0;
 }
 
