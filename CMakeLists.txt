@@ -60,6 +60,9 @@ set (
     # Include/Vectors
     "include/vectors/vector.h"
     "include/vectors/vector2.h"
+
+    # Include/Vfn
+    "include/vfn/vmag.h"
 )
 
 # Here we create an empty interface library

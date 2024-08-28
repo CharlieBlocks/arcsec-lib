@@ -42,6 +42,12 @@ struct op_selector<int32x4_t, 3> {
         matches &= 0xffffffffffffull;
         return matches == 0xffffffffffffull;
     }
+    OP_FUNC1_RET(T, sum, int32_t) {
+        // Requires the extra set to prevent invalid result
+        // Doing a set on a register should be qucker than subtracting from result
+        _A[3] = 0;
+        return vaddvq_s32(_A);
+    }
 };
 
 
@@ -68,6 +74,9 @@ struct op_selector<int32x4_t, 4> {
         uint64_t matches = vget_lane_u64(vreinterpret_u64_u8(res), 0);
         return matches == 0xffffffffffffffffull;
     }
+    OP_FUNC1_RET(T, sum, int32_t) {
+        return vaddvq_s32(_A);
+    }
 };
 
 
@@ -91,6 +100,10 @@ struct op_selector<float32x4_t, 3> {
         uint64_t matches = vget_lane_u64(vreinterpret_u64_u8(res), 0);
         return (matches & 0xffffffffffffull) == 0xffffffffffffull;
     }
+    OP_FUNC1_RET(T, sum, float) {
+        _A[3] = 0;
+        return vaddvq_f32(_A);
+    }
 };
 
 template<>
@@ -106,6 +119,9 @@ struct op_selector<float32x4_t, 4> {
         uint8x8_t res = vshrn_n_u16(mask, 4);
         uint64_t matches = vget_lane_u64(vreinterpret_u64_u8(res), 0);
         return matches == 0xffffffffffffffffull;
+    }
+    OP_FUNC1_RET(T, sum, float) {
+        return vaddvq_f32(_A);
     }
 };
 
@@ -126,6 +142,9 @@ struct op_selector<float64x2_t, 2> {
         uint8x8_t res = vshrn_n_u16(mask, 4);
         uint64_t matches = vget_lane_u64(vreinterpret_u64_u8(res), 0);
         return matches == 0xffffffffffffffffull;
+    }
+    OP_FUNC1_RET(T, sum, double) {
+        return vaddvq_f64(_A);
     }
 };
 
