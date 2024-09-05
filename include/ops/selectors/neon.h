@@ -104,6 +104,23 @@ struct op_selector<float32x4_t, 3> {
         _A[3] = 0;
         return vaddvq_f32(_A);
     }
+    OP_FUNC2(T, T, cross) {
+        float32x4_t result = {0};
+        asm volatile(
+            "ext %0.16B, %1.16B, %1.16B, #0xc   \n\t"
+            "ext v1.16B, %2.16B, %2.16B, #0xc   \n\t"
+            "mov.s %1[3], %1[0]                 \n\t"
+            "mov.s %2[3], %2[0]                 \n\t"
+            "fmul %0.4S, %0.4S, %2.4S           \n\t"
+            "fmls %0.4S, v1.4S, %1.4S           \n\t"
+            "ext %0.16B, %0.16B, %0.16B, #0x8   \n\t"
+            "mov.s %0[2], %0[3]                  \n\t"
+            : "=&w"(result)
+            : "w"(_A), "w"(_B)
+            : "v1"
+        );
+        return result;
+    }
 };
 
 template<>
