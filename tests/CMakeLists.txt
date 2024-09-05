@@ -10,6 +10,7 @@ set (
     "${CMAKE_CURRENT_SOURCE_DIR}/vec-arithmetic.cpp" # Test for basic lhs arithmetric
     "${CMAKE_CURRENT_SOURCE_DIR}/vec-mag.cpp" # Test arc::vmagnitude and arc::vmagnitude2
     "${CMAKE_CURRENT_SOURCE_DIR}/vec-norm.cpp" # Test arc::vnormalise
+    "${CMAKE_CURRENT_SOURCE_DIR}/vec-dot.cpp" # Test arc::vdot
 )
 
 # We iterate over TEST_FILES to create executables for each test
