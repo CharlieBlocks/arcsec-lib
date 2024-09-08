@@ -3,3 +3,7 @@
 # so we ignore all cmake generated files
 
 /[Bb]uild/
+
+
+# clangd generated cache folder
+/.cache/
