@@ -97,3 +97,7 @@ endif ()
 include (CTest)
 enable_testing ()
 add_subdirectory (tests)
+
+
+# Add benchmarking files
+add_subdirectory (benchmarks)
