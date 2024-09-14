@@ -10,11 +10,11 @@ namespace arc {
         template<int _Dim, typename _Type>
         static constexpr inline vec<_Dim, _Type> generic_vcross(const vec<_Dim, _Type>& A, const vec<_Dim, _Type>& B) noexcept {
             static_assert(_Dim == 3 && type_eq<float, _Type>::value, "[arc::vcross] -> Invalid arguments, only _Dim == 3 and _Type == float are supported");;
-            return {
+            return vec<_Dim, _Type>(
                 A.arr[1]*B.arr[2] - A.arr[2]*B.arr[1],
                 A.arr[2]*B.arr[0] - A.arr[0]*B.arr[2],
-                A.arr[3]*B.arr[1] - A.arr[1]*B.arr[3]
-            };
+                A.arr[0]*B.arr[1] - A.arr[1]*B.arr[0]
+            );
         }
 
 
@@ -28,7 +28,7 @@ namespace arc {
         };
 
         template<>
-        struct cross_selector<void> {
+        struct cross_selector<void*> {
             template<int _Dim, typename _Type>
             static constexpr inline vec<_Dim, _Type> cross(const vec<_Dim, _Type>& A, const vec<_Dim, _Type>& B) noexcept {
                 return generic_vcross(A, B);
