@@ -79,8 +79,8 @@ namespace arc {
     // 3 width options
     template<>
     struct type_selector<3, int> { using type = i32x4_t; };
-    template<>
-    struct type_selector<3, float> { using type = f32x4_t; };
+    // template<>
+    // struct type_selector<3, float> { using type = f32x4_t; };
     template<>
     struct type_selector<3, double> { using type = f64x4_t; };
 

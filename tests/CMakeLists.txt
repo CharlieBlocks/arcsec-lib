@@ -12,6 +12,8 @@ set (
     "${CMAKE_CURRENT_SOURCE_DIR}/vec-norm.cpp" # Test arc::vnormalise
     "${CMAKE_CURRENT_SOURCE_DIR}/vec-dot.cpp" # Test arc::vdot
     "${CMAKE_CURRENT_SOURCE_DIR}/vec-cross.cpp" # Test arc::vcross
+
+    "${CMAKE_CURRENT_SOURCE_DIR}/mat-arithmetic.cpp" # Test for basic matrix arithmetic
 )
 
 # We iterate over TEST_FILES to create executables for each test

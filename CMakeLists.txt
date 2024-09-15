@@ -46,10 +46,12 @@ set (
 
     # Include
     "include/vectors.h"
+    "include/matrices.h"
     "include/intrinsics.h"
 
     # Include/Ops
     "include/ops/vops.h"
+    "include/ops/mops.h"
     "include/ops/selectors/operation_selector.h"
 
     # Include/Ops/Vectors
@@ -57,9 +59,22 @@ set (
     "include/ops/vectors/vector_generic.h"
     "include/ops/vectors/vector_vectorised.h"
 
+    # Include/Ops/Matrices
+    "include/ops/matrices/generic_matrix_ops.h"
+    "include/ops/matrices/matrix_generic.h"
+    "include/ops/matrices/matrix_vectorised.h"
+
     # Include/Vectors
     "include/vectors/vector.h"
     "include/vectors/vector2.h"
+    "include/vectors/vector3.h"
+    "include/vectors/vector4.h"
+    "include/vectors/operators.h"
+
+    # Include/Matrices
+    "include/matrices/matrix.h"
+    "include/matrices/mat3.h"
+    "include/matrices/operators.h"
 
     # Include/Vfn
     "include/vfn/vmag.h"

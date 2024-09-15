@@ -1,0 +1,29 @@
+TODO list;
+
+- Add Documentation
+- Add matrices
+- Test on x86 (plus add a few extra guards)
+- Rewrite intrinsic opertaions in assembly
+- Add always_inline specifiers (or __forceinline for msvc)
+- Remove return from mut functions
+
+Benchmarks/Improvments
+    - Test equal algorithms (NEON & x86)
+    - Optimise un-vectorised cross product to avoid pipeline stalls
+    - Dot product
+
+Matrix Operations
+    Addition
+    Subtraction
+    Multiplication - Pairwise
+    Division
+    (N)Eq?
+
+Matrix Functions
+    Dot
+    Dot with vector
+
+
+CLANG FLAGS
+    -flto (Enable link time optimisations)
+    -O3 (Enable Maximum optimisations)

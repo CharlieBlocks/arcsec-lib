@@ -4,7 +4,7 @@
 #include <iostream>
 
 // Fifty-million
-#define ITERATIONS 10000000
+#define ITERATIONS 50000000
 
 void Benchmark_v4add_arc() {
     BenchmarkState state("v4add_arc", ITERATIONS);
@@ -46,7 +46,7 @@ void Benchmark_v4add_c() {
 void Benchmark_v3cross_arc() {
     BenchmarkState state("v3cross_arc", ITERATIONS);
 
-    arc::vec3 result(0);
+    arc::vec3 result((float)0);
     arc::vec3 a(1, 2, 3);
     arc::vec3 b(3, 2, 1);
 
